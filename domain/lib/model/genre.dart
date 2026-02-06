@@ -1,0 +1,21 @@
+enum Genre {
+  action,
+  adventure,
+  animation,
+  biography,
+  comedy,
+  crime,
+  drama,
+  family,
+  fantasy,
+  history,
+  horror,
+  music,
+  mystery,
+  romance,
+  sciFi,
+  sport,
+  thriller,
+  war,
+  western;
+}

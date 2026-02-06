@@ -1,0 +1,7 @@
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main/main_flavor_staging.dart
+ASSET_PREFIX=flavor_staging
+BUNDLE_NAME=Hello Flutter Staging
+BUNDLE_DISPLAY_NAME=Hello Flutter Staging

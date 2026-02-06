@@ -1,0 +1,239 @@
+{
+  "@@locale": "ja",
+  "app_name": "健康アプリ",
+  "@app_name": {
+    "type": "text"
+  },
+  "must": "必須",
+  "@must": {
+    "type": "text"
+  },
+  "error__network_error_with_error_and_message": "ネットワークエラー: {code} : {message}",
+  "@error__network_error_with_error_and_message": {
+    "type": "text",
+    "placeholders": {
+      "code": {
+        "type": "int"
+      },
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "error_massage__an_error_occurred_please_try_again_later": "エラーが発生しました。後で再試行してください。",
+  "@error_massage__an_error_occurred_please_try_again_later": {
+    "type": "text"
+  },
+  "login__email_text": "メールアドレス",
+  "@login__email_text": {
+    "type": "text"
+  },
+  "login__please_provide_your_email_text": "メールアドレスを入力してください",
+  "@login__please_provide_your_email_text": {
+    "type": "text"
+  },
+  "login__password_text": "パスワード",
+  "@login__password_text": {
+    "type": "text"
+  },
+  "login__please_provide_your_password_text": "パスワードを入力してください",
+  "@login__please_provide_your_password_text": {
+    "type": "text"
+  },
+  "login__terms_of_use_text": "利用規約",
+  "@login__terms_of_use_text": {
+    "type": "text"
+  },
+  "login__you_must_agree_with_our_terms_and_condition_text": "利用規約に同意する必要があります",
+  "@login__you_must_agree_with_our_terms_and_condition_text": {
+    "type": "text"
+  },
+  "login__privacy_policy_text": "プライバシーポリシー",
+  "@login__privacy_policy_text": {
+    "type": "text"
+  },
+  "login__you_must_agree_with_our_privacy_policy_text": "プライバシーポリシーに同意する必要があります",
+  "@login__you_must_agree_with_our_privacy_policy_text": {
+    "type": "text"
+  },
+  "login__login_button_text": "ログインボタン",
+  "@login__login_button_text": {
+    "type": "text"
+  },
+  "login__login_pressed_this_button_for_login_text": "ログインするにはこのボタンを押してください",
+  "@login__login_pressed_this_button_for_login_text": {
+    "type": "text"
+  },
+  "login__instruction_text": "登録手順に記載されたアカウントIDとパスワードを使用してログインしてください。",
+  "@login__instruction_text": {
+    "type": "text"
+  },
+  "login__account_id_text": "アカウントID",
+  "@login__account_id_text": {
+    "type": "text"
+  },
+  "login__example_text": "example@i@kirin.co.jp",
+  "@login__example_text": {
+    "type": "text"
+  },
+  "login__agree_to_the_terms_of_use_text": "利用規約に同意します",
+  "@login__agree_to_the_terms_of_use_text": {
+    "type": "text"
+  },
+  "login__agree_to_the_privacy_policy_text": "プライバシーポリシーに同意します",
+  "@login__agree_to_the_privacy_policy_text": {
+    "type": "text"
+  },
+  "login__forgot_password_text": "パスワードをお忘れですか？",
+  "@login__forgot_password_text": {
+    "type": "text"
+  },
+  "login__login_btn_text": "ログイン",
+  "@login__login_btn_text": {
+    "type": "text"
+  },
+  "login__login_form__email_field_empty": "メールアドレスを入力してください",
+  "@login__login_form__email_field_empty": {
+    "type": "text"
+  },
+  "login__login_form__email_field_invalid_email_text": "有効なメールアドレスを入力してください",
+  "@login__login_form__email_field_invalid_email_text": {
+    "type": "text"
+  },
+  "login__login_form__email_field_label_text": "メールアドレス",
+  "@login__login_form__email_field_label_text": {
+    "type": "text"
+  },
+  "login__login_form__email_field_placeholder_text": "メールアドレスを入力してください",
+  "@login__login_form__email_field_placeholder_text": {
+    "type": "text"
+  },
+  "error_please_fill_up_all_fields": "必須項目をすべて入力してください",
+  "@error_please_fill_up_all_fields": {
+    "type": "text"
+  },
+  "login__login_form__error_you_does_not_have_driver_role": "ドライバーの役割がありません",
+  "@login__login_form__error_you_does_not_have_driver_role": {
+    "type": "text"
+  },
+  "login__login_form__password_field_empty": "パスワードを入力してください",
+  "@login__login_form__password_field_empty": {
+    "type": "text"
+  },
+  "login__login_form__password_field_invalid_password_must_be_atleast_eight_char_long": "パスワードは8文字以上である必要があります",
+  "@login__login_form__password_field_invalid_password_must_be_atleast_eight_char_long": {
+    "type": "text"
+  },
+  "login__login_form__password_field_invalid_password_must_contain_atleast_one_digit": "パスワードには少なくとも1つの数字を含める必要があります",
+  "@login__login_form__password_field_invalid_password_must_contain_atleast_one_digit": {
+    "type": "text"
+  },
+  "login__login_form__password_field_invalid_password_must_contain_atleast_one_lowercase_letter": "パスワードには少なくとも1つの小文字を含める必要があります",
+  "@login__login_form__password_field_invalid_password_must_contain_atleast_one_lowercase_letter": {
+    "type": "text"
+  },
+  "login__login_form__password_field_invalid_password_must_contain_atleast_one_special_character": "パスワードには少なくとも1つの特殊文字を含める必要があります",
+  "@login__login_form__password_field_invalid_password_must_contain_atleast_one_special_character": {
+    "type": "text"
+  },
+  "login__login_form__password_field_invalid_password_must_contain_atleast_one_uppercase_letter": "パスワードには少なくとも1つの大文字を含める必要があります",
+  "@login__login_form__password_field_invalid_password_must_contain_atleast_one_uppercase_letter": {
+    "type": "text"
+  },
+  "login__login_form__password_field_invalid_password_must_not_contain_any_whitespace": "パスワードには空白を含めることはできません",
+  "@login__login_form__password_field_invalid_password_must_not_contain_any_whitespace": {
+    "type": "text"
+  },
+  "login__login_form__password_field_invalid_password_text": "有効なパスワードを入力してください",
+  "@login__login_form__password_field_invalid_password_text": {
+    "type": "text"
+  },
+  "login__login_form__password_field_label_text": "パスワード",
+  "@login__login_form__password_field_label_text": {
+    "type": "text"
+  },
+  "login__login_form__password_field_placeholder_text": "パスワードを入力してください",
+  "@login__login_form__password_field_placeholder_text": {
+    "type": "text"
+  },
+  "login__login_process__login_failed": "ログインに失敗しました",
+  "@login__login_process__login_failed": {
+    "type": "text"
+  },
+  "login__login_process__wrong_credential": "メールアドレス/パスワードが間違っています",
+  "@login__login_process__wrong_credential": {
+    "type": "text"
+  },
+  "login__title_text": "ログイン",
+  "@login__title_text": {
+    "type": "text"
+  },
+  "error_massage__please_check_your_internet_connection": "インターネット接続を確認してください",
+  "@error_massage__please_check_your_internet_connection": {
+    "type": "text"
+  },
+  "genre__action": "アクション",
+  "@genre__action": {
+    "type": "text"
+  },
+  "genre__adventure": "アドベンチャー",
+  "@genre__adventure": {
+    "type": "text"
+  },
+  "genre__animation": "アニメーション",
+  "@genre__animation": {
+    "type": "text"
+  },
+  "genre__sci_fi": "SF",
+  "@genre__sci_fi": {
+    "type": "text"
+  },
+  "genre__thriller": "スリラー",
+  "@genre__thriller": {
+    "type": "text"
+  },
+  "theme": "テーマ",
+  "@theme": {
+    "type": "text"
+  },
+  "system_default": "システムデフォルト",
+  "@system_default": {
+    "type": "text"
+  },
+  "light_theme": "ライトテーマ",
+  "@light_theme": {
+    "type": "text"
+  },
+  "dark_theme": "ダークテーマ",
+  "@dark_theme": {
+    "type": "text"
+  },
+  "language": "言語",
+  "@language": {
+    "type": "text"
+  },
+  "en": "英語",
+  "@en": {
+    "type": "text"
+  },
+  "ja": "日本語",
+  "@ja": {
+    "type": "text"
+  },
+  "navigation_item__home": "ホーム",
+  "@navigation_item__home": {
+    "type": "text"
+  },
+  "navigation_item__bookmark": "ブックマーク",
+  "@navigation_item__bookmark": {
+    "type": "text"
+  },
+  "navigation_item__search": "検索",
+  "@navigation_item__search": {
+    "type": "text"
+  },
+  "navigation_item__settings": "設定",
+  "@navigation_item__settings": {
+    "type": "text"
+  }
+}
