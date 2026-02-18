@@ -96,7 +96,8 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
 
   // Real-time liveness detection state
   final ValueNotifier<bool> _isRealtimeLivenessActive = ValueNotifier(false);
-  ValueListenable<bool> get isRealtimeLivenessActive => _isRealtimeLivenessActive;
+  ValueListenable<bool> get isRealtimeLivenessActive =>
+      _isRealtimeLivenessActive;
 
   final ValueNotifier<bool?> _realtimeFaceDetected = ValueNotifier(null);
   ValueListenable<bool?> get realtimeFaceDetected => _realtimeFaceDetected;
@@ -144,7 +145,8 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
 
         final controller = CameraController(
           backCamera,
-          ResolutionPreset.medium, // Use medium instead of high to reduce buffer pressure
+          ResolutionPreset
+              .medium, // Use medium instead of high to reduce buffer pressure
           enableAudio: false,
         );
 
@@ -169,14 +171,15 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
         orElse: () => _cameras.value.first,
       );
 
-        final controller = CameraController(
-          frontCamera,
-          ResolutionPreset.medium, // Use medium instead of high to reduce buffer pressure
-          enableAudio: false,
-        );
+      final controller = CameraController(
+        frontCamera,
+        ResolutionPreset
+            .medium, // Use medium instead of high to reduce buffer pressure
+        enableAudio: false,
+      );
 
-        await controller.initialize();
-        _cameraController.value = controller;
+      await controller.initialize();
+      _cameraController.value = controller;
     } catch (e, stackTrace) {
       Logger.error(
         'EkycViewModel: Failed to switch camera , \n Error: $e \n StackTrace: $stackTrace',
@@ -188,7 +191,7 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
   Future<void> captureDocument() async {
     CameraController? controller;
     CameraDescription? camera;
-    
+
     try {
       controller = _cameraController.value;
       if (controller == null || !controller.value.isInitialized) {
@@ -250,7 +253,8 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
       // Decode to get dimensions
       final decodedImage = img.decodeImage(imageBytes);
       if (decodedImage == null) {
-        _errorMessage.value = 'Failed to decode image. Please try capturing again.';
+        _errorMessage.value =
+            'Failed to decode image. Please try capturing again.';
         _isProcessing.value = false;
         // Recreate camera for next capture
         await _recreateCamera(camera);
@@ -259,7 +263,8 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
 
       // Validate image dimensions
       if (decodedImage.width <= 0 || decodedImage.height <= 0) {
-        _errorMessage.value = 'Invalid image dimensions. Please try capturing again.';
+        _errorMessage.value =
+            'Invalid image dimensions. Please try capturing again.';
         _isProcessing.value = false;
         await _recreateCamera(camera);
         return;
@@ -325,10 +330,10 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
       // Store side-specific data
       if (side == DocumentSide.front) {
         _frontSideInfo.value = docInfo;
-        
+
         // Small delay before face detection to allow OCR buffers to be released
         await Future.delayed(const Duration(milliseconds: 150));
-        
+
         // Detect face only on front side
         final faceResult = await loadData(
           ekycRepository.detectDocumentFace(capturedImage),
@@ -339,18 +344,20 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
           // Provide more detailed error message
           String errorMsg;
           if (!faceResult.faceDetected) {
-            errorMsg = faceResult.errorMessage ?? 
+            errorMsg =
+                faceResult.errorMessage ??
                 'No face detected in document photo. Please ensure:\n'
-                '• The photo is clear and well-lit\n'
-                '• Your face is fully visible\n'
-                '• The document is not blurry\n'
-                '• Try capturing again';
+                    '• The photo is clear and well-lit\n'
+                    '• Your face is fully visible\n'
+                    '• The document is not blurry\n'
+                    '• Try capturing again';
           } else if (faceResult.faceCount > 1) {
-            errorMsg = 'Multiple faces detected in document. Please ensure only one face is visible.';
+            errorMsg =
+                'Multiple faces detected in document. Please ensure only one face is visible.';
           } else {
             errorMsg = 'Face detection failed in document';
           }
-          
+
           _errorMessage.value = errorMsg;
           dismissLoadingDialog();
           _isProcessing.value = false;
@@ -370,7 +377,7 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
       } else {
         // Back side captured
         _backSideInfo.value = docInfo;
-        
+
         // Merge front and back side data
         _documentInfo.value = _mergeDocumentInfo(
           _frontSideInfo.value,
@@ -433,7 +440,9 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
   void startRealtimeLivenessDetection() {
     final controller = _cameraController.value;
     if (controller == null || !controller.value.isInitialized) {
-      Logger.debug('EkycViewModel: Cannot start realtime liveness - camera not initialized');
+      Logger.debug(
+        'EkycViewModel: Cannot start realtime liveness - camera not initialized',
+      );
       return;
     }
 
@@ -450,37 +459,41 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
     // Process frames periodically (every 1000ms to avoid performance issues)
     DateTime? lastProcessTime;
     try {
-      controller.startImageStream((CameraImage image) async {
-        if (!_isRealtimeLivenessActive.value) {
-          return;
-        }
+      controller
+          .startImageStream((CameraImage image) async {
+            if (!_isRealtimeLivenessActive.value) {
+              return;
+            }
 
-        // Throttle processing to avoid overwhelming the system
-        final now = DateTime.now();
-        if (lastProcessTime != null &&
-            now.difference(lastProcessTime!).inMilliseconds < 1000) {
-          return;
-        }
+            // Throttle processing to avoid overwhelming the system
+            final now = DateTime.now();
+            if (lastProcessTime != null &&
+                now.difference(lastProcessTime!).inMilliseconds < 1000) {
+              return;
+            }
 
-        if (_isProcessingFrame) {
-          return; // Skip if still processing previous frame
-        }
+            if (_isProcessingFrame) {
+              return; // Skip if still processing previous frame
+            }
 
-        lastProcessTime = now;
-        _isProcessingFrame = true;
+            lastProcessTime = now;
+            _isProcessingFrame = true;
 
-        try {
-          await _processRealtimeLivenessFrame(image);
-        } catch (e, stackTrace) {
-          Logger.error('EkycViewModel: Error processing realtime frame: $e\n$stackTrace');
-          _realtimeFaceDetected.value = false;
-        } finally {
-          _isProcessingFrame = false;
-        }
-      }).catchError((error) {
-        Logger.error('EkycViewModel: Error starting image stream: $error');
-        _isRealtimeLivenessActive.value = false;
-      });
+            try {
+              await _processRealtimeLivenessFrame(image);
+            } catch (e, stackTrace) {
+              Logger.error(
+                'EkycViewModel: Error processing realtime frame: $e\n$stackTrace',
+              );
+              _realtimeFaceDetected.value = false;
+            } finally {
+              _isProcessingFrame = false;
+            }
+          })
+          .catchError((error) {
+            Logger.error('EkycViewModel: Error starting image stream: $error');
+            _isRealtimeLivenessActive.value = false;
+          });
     } catch (e) {
       Logger.error('EkycViewModel: Failed to start image stream: $e');
       _isRealtimeLivenessActive.value = false;
@@ -529,7 +542,9 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
       if (!faceResult.faceDetected) {
         _realtimeEyesOpen.value = null;
         _realtimeFaceCentered.value = null;
-        Logger.debug('EkycViewModel: No face detected in frame. Error: ${faceResult.errorMessage}');
+        Logger.debug(
+          'EkycViewModel: No face detected in frame. Error: ${faceResult.errorMessage}',
+        );
         return;
       }
 
@@ -541,17 +556,18 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
         );
       }
 
-      // Check if eyes are open (simplified check)
-      // Note: This is a simplified check - in production, use proper eye detection
-      try {
-        // We'll use a basic check: if face is detected and centered, assume eyes are open
-        // For more accurate detection, we'd need to call areEyesOpen service
-        _realtimeEyesOpen.value = _realtimeFaceCentered.value ?? false;
-      } catch (_) {
-        _realtimeEyesOpen.value = null;
+      // Eyes-open verification: only from phone front camera (selfie camera)
+      // ML Kit eye probabilities: leftEyeOpenProbability, rightEyeOpenProbability (0.0-1.0)
+      final controller = _cameraController.value;
+      if (controller?.description.lensDirection == CameraLensDirection.front) {
+        _realtimeEyesOpen.value = faceResult.eyesOpen;
+      } else {
+        _realtimeEyesOpen.value = null; // Not front camera - cannot verify eyes
       }
     } catch (e, stackTrace) {
-      Logger.error('EkycViewModel: Error in realtime liveness: $e\n$stackTrace');
+      Logger.error(
+        'EkycViewModel: Error in realtime liveness: $e\n$stackTrace',
+      );
       _realtimeFaceDetected.value = false;
     }
   }
@@ -564,7 +580,9 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
     try {
       // Validate image planes
       if (image.planes.length < 3) {
-        Logger.error('EkycViewModel: Invalid CameraImage format - expected 3 planes, got ${image.planes.length}');
+        Logger.error(
+          'EkycViewModel: Invalid CameraImage format - expected 3 planes, got ${image.planes.length}',
+        );
         return null;
       }
 
@@ -576,7 +594,7 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
       final yBuffer = yPlane.bytes;
       final uBuffer = uPlane.bytes;
       final vBuffer = vPlane.bytes;
-      
+
       final yStride = yPlane.bytesPerRow;
       final uStride = uPlane.bytesPerRow;
       final vStride = vPlane.bytesPerRow;
@@ -606,16 +624,16 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
       // NV21: V and U are interleaved, with V first
       // YUV420: U and V are separate planes, each subsampled by 2x2
       int nv21UvOffset = ySize;
-      
+
       // UV planes are half the size of Y plane (subsampled 2x2)
       final uvWidth = image.width ~/ 2;
       final uvHeight = image.height ~/ 2;
-      
+
       for (int y = 0; y < uvHeight; y++) {
         for (int x = 0; x < uvWidth; x++) {
           final uIndex = y * uStride + x;
           final vIndex = y * vStride + x;
-          
+
           if (uIndex < uBuffer.length && vIndex < vBuffer.length) {
             // NV21 format: VU interleaved (V first, then U)
             nv21Buffer[nv21UvOffset++] = vBuffer[vIndex];
@@ -626,7 +644,9 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
 
       return nv21Buffer;
     } catch (e, stackTrace) {
-      Logger.error('EkycViewModel: Failed to convert CameraImage to NV21: $e\n$stackTrace');
+      Logger.error(
+        'EkycViewModel: Failed to convert CameraImage to NV21: $e\n$stackTrace',
+      );
       return null;
     }
   }
@@ -637,7 +657,7 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
 
     CameraController? controller;
     CameraDescription? camera;
-    
+
     try {
       controller = _cameraController.value;
       if (controller == null || !controller.value.isInitialized) {
@@ -777,10 +797,10 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
       dismissLoadingDialog();
       _isProcessing.value = false; // Reset processing flag
       _currentStep.value = EkycStep.livenessDetection;
-      
+
       // Small delay to let the UI update and show the liveness detection widget
       await Future.delayed(const Duration(milliseconds: 300));
-      
+
       // Then perform liveness detection
       await performLiveness();
     } catch (e, stackTrace) {
@@ -837,7 +857,7 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
 
       // Small delay to show the success result before moving to verification
       await Future.delayed(const Duration(milliseconds: 1500));
-      
+
       // dismissLoadingDialog();
       _currentStep.value = EkycStep.verification;
       await performVerification();
@@ -936,7 +956,7 @@ class EkycViewModel extends BaseViewModel<EkycArgument> {
       controller.dispose();
     }
     _cameraController.value = null;
-    
+
     _currentStep.dispose();
     _cameras.dispose();
     _documentImage.dispose();

@@ -86,6 +86,8 @@ class FaceDetectionService {
         return FaceDetectionResultEntity.success(
           confidence: confidence,
           bounds: bounds,
+          leftEyeOpenProbability: face.leftEyeOpenProbability,
+          rightEyeOpenProbability: face.rightEyeOpenProbability,
         );
       } catch (e) {
         // Log the error and fallback to file-based approach
@@ -161,6 +163,8 @@ class FaceDetectionService {
       return FaceDetectionResultEntity.success(
         confidence: confidence,
         bounds: bounds,
+        leftEyeOpenProbability: face.leftEyeOpenProbability,
+        rightEyeOpenProbability: face.rightEyeOpenProbability,
       );
     } catch (e, stackTrace) {
       print(

@@ -6,17 +6,36 @@ class FaceDetectionResultEntity {
   final FaceBounds? bounds;
   final String? errorMessage;
 
+  /// ML Kit eye open probabilities (0.0 = closed, 1.0 = open)
+  /// Used for liveness detection (blink, eyes open check)
+  final double? leftEyeOpenProbability;
+  final double? rightEyeOpenProbability;
+
   FaceDetectionResultEntity({
     required this.faceDetected,
     required this.faceCount,
     this.confidence,
     this.bounds,
     this.errorMessage,
+    this.leftEyeOpenProbability,
+    this.rightEyeOpenProbability,
   });
+
+  /// Both eyes considered open if both probabilities > threshold (default 0.5)
+  /// Returns null when eye data is unavailable (e.g. face at bad angle)
+  bool? get eyesOpen {
+    final left = leftEyeOpenProbability;
+    final right = rightEyeOpenProbability;
+    if (left == null || right == null) return null;
+    const threshold = 0.5;
+    return left > threshold && right > threshold;
+  }
 
   FaceDetectionResultEntity.success({
     required this.confidence,
     required this.bounds,
+    this.leftEyeOpenProbability,
+    this.rightEyeOpenProbability,
   }) : faceDetected = true,
        faceCount = 1,
        errorMessage = null;
@@ -26,21 +45,27 @@ class FaceDetectionResultEntity {
       faceCount = 0,
       confidence = null,
       bounds = null,
-      errorMessage = 'No face detected';
+      errorMessage = 'No face detected',
+      leftEyeOpenProbability = null,
+      rightEyeOpenProbability = null;
 
   FaceDetectionResultEntity.multipleFaces()
     : faceDetected = false,
       faceCount = 0,
       confidence = null,
       bounds = null,
-      errorMessage = 'Multiple faces detected. Only one face is allowed.';
+      errorMessage = 'Multiple faces detected. Only one face is allowed.',
+      leftEyeOpenProbability = null,
+      rightEyeOpenProbability = null;
 
   FaceDetectionResultEntity.error(String message)
     : faceDetected = false,
       faceCount = 0,
       confidence = null,
       bounds = null,
-      errorMessage = message;
+      errorMessage = message,
+      leftEyeOpenProbability = null,
+      rightEyeOpenProbability = null;
 }
 
 /// Bounding box coordinates for detected face
