@@ -1,3 +1,5 @@
+import 'package:hello_flutter/presentation/feature/ekyc/route/ekyc_argument.dart';
+import 'package:hello_flutter/presentation/feature/ekyc/route/ekyc_route.dart';
 import 'package:hello_flutter/presentation/feature/splash/route/splash_argument.dart';
 import 'package:hello_flutter/presentation/feature/splash/route/splash_route.dart';
 import 'package:hello_flutter/presentation/base/base_argument.dart';
@@ -22,7 +24,8 @@ enum RoutePath {
   movieBookmark,
   setting,
   movieDetails,
-  splash, 
+  splash,
+  ekyc,
   unknown;
 
   static RoutePath fromString(String? path) {
@@ -43,6 +46,8 @@ enum RoutePath {
         return RoutePath.movieDetails;
       case '/splash':
         return RoutePath.splash;
+      case '/ekyc':
+        return RoutePath.ekyc;
       default:
         return RoutePath.unknown;
     }
@@ -66,6 +71,8 @@ enum RoutePath {
         return '/movieDetails';
       case RoutePath.splash:
         return '/splash';
+      case RoutePath.ekyc:
+        return '/ekyc';
       default:
         return '';
     }
@@ -74,9 +81,7 @@ enum RoutePath {
   BaseRoute getAppRoute({BaseArgument? arguments}) {
     switch (this) {
       case RoutePath.login:
-        return LoginRoute(
-          arguments: arguments as LoginArgument?,
-        );
+        return LoginRoute(arguments: arguments as LoginArgument?);
       case RoutePath.home:
         if (arguments is! HomeArgument) {
           throw Exception('HomeArgument is required');
@@ -102,6 +107,11 @@ enum RoutePath {
           throw Exception('SplashArgument is required');
         }
         return SplashRoute(arguments: arguments);
+      case RoutePath.ekyc:
+        if (arguments is! EkycArgument) {
+          throw Exception('EkycArgument is required');
+        }
+        return EkycRoute(arguments: arguments);
       default:
         return UnknownRoute(arguments: arguments);
     }

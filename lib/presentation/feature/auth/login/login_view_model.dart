@@ -4,6 +4,8 @@ import 'package:hello_flutter/presentation/base/base_viewmodel.dart';
 import 'package:hello_flutter/presentation/feature/auth/login/route/login_argument.dart';
 import 'package:hello_flutter/presentation/feature/auth/validator/email_validator.dart';
 import 'package:hello_flutter/presentation/feature/auth/validator/password_validator.dart';
+import 'package:hello_flutter/presentation/feature/ekyc/route/ekyc_argument.dart';
+import 'package:hello_flutter/presentation/feature/ekyc/route/ekyc_route.dart';
 import 'package:hello_flutter/presentation/feature/home/route/home_argument.dart';
 import 'package:hello_flutter/presentation/feature/home/route/home_route.dart';
 import 'package:hello_flutter/presentation/localization/text_id.dart';
@@ -37,34 +39,34 @@ class LoginViewModel extends BaseViewModel<LoginArgument> {
   }
 
   Future<void> onLoginButtonClicked() async {
-    if (email.value == null || password.value == null) {
-      showToast(
-        uiText: DynamicUiText(
-          textId: PleaseFillUpAllTheRequiredFieldsTextId(),
-          fallbackText: "Please fill up all fields",
-        ),
-      );
-      return;
-    }
-
-    if (!EmailValidator.isValid(email.value) ||
-        !PasswordValidator.isValid(password.value)) {
-      showToast(
-        uiText: DynamicUiText(
-          textId: PleaseFillUpAllTheRequiredFieldsTextId(),
-          fallbackText: "Please fill up all fields",
-        ),
-      );
-      return;
-    }
-
-    await loadData(authRepository.login(
-      email: email.value!,
-      password: password.value!,
-    ));
+    // if (email.value == null || password.value == null) {
+    //   showToast(
+    //     uiText: DynamicUiText(
+    //       textId: PleaseFillUpAllTheRequiredFieldsTextId(),
+    //       fallbackText: "Please fill up all fields",
+    //     ),
+    //   );
+    //   return;
+    // }
+    //
+    // if (!EmailValidator.isValid(email.value) ||
+    //     !PasswordValidator.isValid(password.value)) {
+    //   showToast(
+    //     uiText: DynamicUiText(
+    //       textId: PleaseFillUpAllTheRequiredFieldsTextId(),
+    //       fallbackText: "Please fill up all fields",
+    //     ),
+    //   );
+    //   return;
+    // }
+    //
+    // await loadData(authRepository.login(
+    //   email: email.value!,
+    //   password: password.value!,
+    // ));
 
     navigateToScreen(
-      destination: HomeRoute(arguments: HomeArgument(userId: '123')),
+      destination: EkycRoute(arguments: EkycArgument()),
       isClearBackStack: true,
     );
   }
